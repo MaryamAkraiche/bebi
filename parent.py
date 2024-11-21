@@ -16,6 +16,3 @@ while True:
             milk_doses -= 1  
         display.show(str(milk_doses))
         sleep(500)
-    elif button_a.is_pressed() and button_b.is_pressed():
-        milk_doses = 0
-        sleep(500)
