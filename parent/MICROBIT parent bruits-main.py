@@ -1,4 +1,3 @@
-# Imports go at the top
 from microbit import *
 import music
 import radio
@@ -6,7 +5,6 @@ import radio
 radio.on()
 radio.config(group = 3)
 
-# Code in a 'while True:' loop repeats forever
 while True:
     if radio.receive() == "Attention, bebe pleure !":
         audio.play(Sound.MYSTERIOUS)
