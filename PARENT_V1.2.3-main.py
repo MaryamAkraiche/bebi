@@ -7,7 +7,31 @@ radio.on()
 radio.config(group=3, power=7)
 last_received_time = time.ticks_ms()
 milk_doses = 0
-
+flamme = Image("00000:"
+               "00500:"
+               "05550:"
+               "55555:"
+               "05550")
+flocons = Image("50505:"
+                "05550:"
+                "55055:"
+                "05550:"
+                "50505")
+compteur_de_lait = Image("00500:"
+                         "50005:"
+                         "50005:"
+                         "50005:"
+                         "55555:")
+luminosité_auto = Image("00500:"
+                        "05550:"
+                        "55555:"
+                        "05550:"
+                        "00500:")
+temperature = Image("00500:"
+                    "05555:"
+                    "00500:"
+                    "00500:"
+                    "00055:")
 def out_of_range():
     global last_received_time
     message = radio.receive()
@@ -20,9 +44,9 @@ def out_of_range():
 def temp():
     message = radio.receive()
     if message == "Alerte: Température trop élevée !":
-        display.scroll("TEMPERATURE TROP ELEVEE !", delay=100)
+        display.show(flamme, delay=100)
     elif message == "Alerte: Température trop basse !":
-        display.scroll("TEMPERATURE TROP BASSE !", delay=100)
+        display.show(flocons, delay=100)
 
 def micro():
     message = radio.receive()
