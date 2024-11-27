@@ -32,22 +32,28 @@ temperature = Image("00500:"
                     "00500:"
                     "00500:"
                     "00055:")
+hors_de_portée = Image("00500:"
+                       "00500:"
+                       "00500:"
+                       "00000:"
+                       "00500:")
 def out_of_range():
     global last_received_time
     message = radio.receive()
     if message == "ping":
         last_received_time = time.ticks_ms()
     elif time.ticks_diff(time.ticks_ms(), last_received_time) > 5000:
-        display.scroll("!Hors de porte!", delay=90, monospace=True)
+        display.show(hors_de_portée, delay=90, monospace=True)
         #METTRE UN SON D'ALERTE
 
 def temp():
     message = radio.receive()
     if message == "Alerte: Température trop élevée !":
         display.show(flamme, delay=100)
+        music.play(music.POWER_DOWN)
     elif message == "Alerte: Température trop basse !":
         display.show(flocons, delay=100)
-
+        music.play(music.POWER_UP)
 def micro():
     message = radio.receive()
     if message == "Attention: Bruit détecté":
@@ -93,7 +99,7 @@ def lait():
             display.show(str(milk_doses))
 
 def menu():
-    lst = ["Compteur de lait", "Luminosite auto.", "Regl. Temperature"]
+    lst = [compteur_de_lait, luminosité_auto, temperature]
     value = []
     stop = False
     for i in lst:
@@ -109,12 +115,14 @@ def menu():
                 break
         if stop:
             break
-    if value and value[0] == "Compteur de lait":
+    if value and value[0] == compteur_de_lait:
         lait()
-    elif value and value[0] == "Luminosite auto.": #PAS OPERATIONNEL
+    elif value and value[0] ==luminosité_auto: #PAS OPERATIONNEL
         light_lvl_menu()
-    elif value and value[0] == "Regl. Temperature":
-        ... #METTRE LA FONCTION CORRESPONDANTE PAS ENCORE CREER
+    elif value and value[0] == temperature:
+        temp()
+    elif value and value[0] == 
+        
 
 
 
