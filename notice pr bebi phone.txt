@@ -1,0 +1,14 @@
+Notice d'utilisation :
+
+fonction temp:
+si flocons : bébé à froid
+si l'image est une flamme : bébé à chaud
+
+out_of_range:
+si point d'excalamtion sa veut dire hors de portée 
+
+fonction menu:
+le biberon indique la fonction compteur de lait
+étoile indique le menu de light
+t indique la fonction température
+2 croche(note de musique) indique la fonction musique et bruits de fonds

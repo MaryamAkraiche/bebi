@@ -107,6 +107,7 @@ def lait():
             sleep(500)
             display.show(str(milk_doses))
 
+
 def menu():
     lst = [compteur_de_lait, luminosité_auto, temperature, musique_bruits]
     value = []
