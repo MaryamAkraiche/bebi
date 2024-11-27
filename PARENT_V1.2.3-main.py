@@ -3,6 +3,10 @@ import radio
 import time
 import music
 
+"""
+Microbit Parent
+"""
+
 radio.on()
 radio.config(group=3, power=7)
 last_received_time = time.ticks_ms()
@@ -37,15 +41,21 @@ hors_de_portée = Image("00500:"
                        "00500:"
                        "00000:"
                        "00500:")
+musique_bruits = Image("05555:"
+                       "05005:"
+                       "05005:"
+                       "55055:"
+                       "55055:")
 def out_of_range():
     global last_received_time
     message = radio.receive()
-    if message == "ping":
+    if message:
         last_received_time = time.ticks_ms()
+        return False
     elif time.ticks_diff(time.ticks_ms(), last_received_time) > 5000:
         display.show(hors_de_portée, delay=90, monospace=True)
-        #METTRE UN SON D'ALERTE
-
+        music.play(music.DADADADUM)
+        return True
 def temp():
     message = radio.receive()
     if message == "Alerte: Température trop élevée !":
@@ -59,7 +69,7 @@ def micro():
     if message == "Attention: Bruit détecté":
         display.show(message)
 
-#FONCTION PAS OPERATIONNEL
+
 def light_lvl():
     if display.read_light_level() < 255:
         for y in range(5):
@@ -75,11 +85,10 @@ def light_lvl_menu():
         display.scroll("Appuyer sur A(active) ou B(desactive)", delay=90, monospace=True)
         if button_a.was_pressed():
             display.scroll("Active", delay=90, monospace=True)
-            light_lvl() #NE MARCHE PAS
+            light_lvl() 
         elif button_b.was_pressed():
             display.scroll("Desactive", delay=90, monospace=True)
-            #BESOIN DE COMPLETER
-        break
+            break
 
 def lait():
     global milk_doses
@@ -88,18 +97,18 @@ def lait():
             milk_doses = 0
             sleep(500)
             display.show("0")
-        elif button_a.is_pressed():
+        elif button_a.was_pressed():
             milk_doses += 1
             sleep(500)
             display.show(str(milk_doses))
-        elif button_b.is_pressed():
+        elif button_b.was_pressed():
             if milk_doses > 0:
                 milk_doses -= 1 
             sleep(500)
             display.show(str(milk_doses))
 
 def menu():
-    lst = [compteur_de_lait, luminosité_auto, temperature]
+    lst = [compteur_de_lait, luminosité_auto, temperature, musique_bruits]
     value = []
     stop = False
     for i in lst:
@@ -113,20 +122,21 @@ def menu():
             elif button_a.is_pressed():
                 stop = True
                 break
-        if stop:
-            break
+        
     if value and value[0] == compteur_de_lait:
         lait()
     elif value and value[0] ==luminosité_auto: #PAS OPERATIONNEL
         light_lvl_menu()
     elif value and value[0] == temperature:
         temp()
-    elif value and value[0] == 
+    elif value and value[0] == musique_bruits:
         
 
 
 
 while True:
-    """out_of_range()""" #Désactivé temporairement dû à l'absence de l'autre microbit
     if pin_logo.is_touched():
-        menu()
+        if out_of_range():
+            break
+        else:
+            menu()
