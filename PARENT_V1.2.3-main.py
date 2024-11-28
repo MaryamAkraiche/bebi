@@ -11,6 +11,7 @@ radio.on()
 radio.config(group=3, power=7)
 last_received_time = time.ticks_ms()
 milk_doses = 0
+
 flamme = Image("00000:"
                "00500:"
                "05550:"
@@ -46,6 +47,12 @@ musique_bruits = Image("05555:"
                        "05005:"
                        "55055:"
                        "55055:")
+musiquemode = Image("00500:"
+                    "00500:"
+                    "00500:"
+                    "05500:"
+                    "05500:")
+
 def out_of_range():
     global last_received_time
     message = radio.receive()
@@ -111,28 +118,19 @@ def musique_et_bruits():
     while True:
         if radio.receive() == "Attention, bebe pleure !":
             audio.play(Sound.MYSTERIOUS)
-            display.scroll("Bebe pleure !")
+            display.show(Image.SAD)
             if button_a.was_pressed():
-                display.scroll("mode musique choisi")
+                display.show(musiquemode)
                 sleep(100)
-                display.scroll("vous confirmez votre choix ?")
-                if button_a.was_pressed():
-                    display.scroll("mode musique active")
-                    radio.send("musique")
-                elif button_b.was_pressed():
-                    pass          
+                radio.send("musique")         
             elif button_b.was_pressed():
-                display.scroll("bruits de fonds choisi")
+                display.show(Image.HEART_SMALL)
                 sleep(100)
-                display.scroll("vous confirmez votre choix ?")
-                if button_a.was_pressed():
-                    display.scroll("mode bruits de fonds active")
-                    radio.send("bruits")
-                elif button_b.was_pressed():
-                    pass  
-            elif pin_logo.is_touched():
-                display.scroll("ne rien faire")
+                radio.send("bruits")
+            elif button_a.is_pressed():
+                display.show("X")
                 radio.send("rien")
+                break
 def menu():
     lst = [compteur_de_lait, luminosité_auto, temperature, musique_bruits]
     value = []
@@ -156,12 +154,15 @@ def menu():
     elif value and value[0] == temperature:
         temp()
     elif value and value[0] == musique_bruits:
+        musique_et_bruits()
         
 
 
 
 while True:
-    if pin_logo.is_touched():
+    if message.received():
+
+    elif pin_logo.is_touched():
         if out_of_range():
             break
         else:

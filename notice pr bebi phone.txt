@@ -11,4 +11,9 @@ fonction menu:
 le biberon indique la fonction compteur de lait
 étoile indique le menu de light
 t indique la fonction température
-2 croche(note de musique) indique la fonction musique et bruits de fonds
+2 croche(note de musique a 2 branche) indique la fonction musique et bruits de fonds
+
+Dans la fonction musique :
+1 croche(note de musique a 1 branche) indique le mode musique activé
+1 petit coeur indique le mode bruits de fonds activé 
+X indique que rien n'a été choisi 
