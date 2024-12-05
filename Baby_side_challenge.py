@@ -250,7 +250,7 @@ def veilleuse_activation():
     if button_a.was_pressed():
         display.show(Image("10101:01110:11111:01110:10101"))
     if pin_logo.is_touched():
-        main()
+        menu()
 
 def instructions():
     if radio.receive():
@@ -277,18 +277,22 @@ def menu():
     lst = [compteur_de_lait, veilleuse, temperature, musique_bruits]
     value = []
     stop = False
-    for image in lst:
-        while not button_a.was_pressed():
-            display.show(image)
-            sleep(500)
-            if button_b.was_pressed():
-                value.clear()
-                value.append(image)
-                stop = True
-                break
-            elif button_a.is_pressed():
-                stop = True
-                break
+    veilleusee()
+    if radio.receive():
+        instructions()
+    else:
+        for image in lst:
+            while not button_a.was_pressed():
+                display.show(image)
+                sleep(500)
+                if button_b.was_pressed():
+                    value.clear()
+                    value.append(image)
+                    stop = True
+                    break
+                elif button_a.is_pressed():
+                    stop = True
+                    break
         
     if value and value[0] == compteur_de_lait:
         lait()
@@ -301,8 +305,5 @@ def menu():
 
 def main():
     while True:
-        veilleusee()
-        if radio.receive():
-            instructions()
         if pin_logo.is_touched():
             menu()

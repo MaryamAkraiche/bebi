@@ -236,13 +236,14 @@ def musique_et_bruits():
     elif pin_logo.is_touched():
         display.show("X")
         sleep(200)
-        main()
+        menu()
         
 
 def menu():
     lst = [compteur_de_lait, veilleuse, temperature, musique_bruits]
     value = []
     stop = False
+    ALERT_RECEIVED()
     for image in lst:
             display.show(image)
             sleep(2000)
@@ -323,20 +324,19 @@ def veilleusee():
         if button_a.is_pressed():
             send_packet(key, 4,"activé" )
         if pin_logo.is_touched():
-            main()
+            menu()
         
 def veilleuse_menu():
     if button_a.is_pressed():
         send_packet(key, 4,"activé" )
     if pin_logo.is_touched():
-            main()
+            menu()
 
 
     
 
 def main():
     while True:
-        ALERT_RECEIVED()
         if pin_logo.is_touched():
             if out_of_range():
                 break
