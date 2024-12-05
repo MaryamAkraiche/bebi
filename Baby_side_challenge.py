@@ -253,10 +253,12 @@ def veilleuse_activation():
         main()
 
 def instructions():
-     if radio.receive():
-          message = receive_packet(radio.receive(), key)
-          if message[0] == 4:
-               veilleuse_activé()  
+    if radio.receive():
+        message = receive_packet(radio.receive(), key)
+        if message[0] == 4:
+            veilleuse_activé()  
+        if message[0] == 2:
+            musique_et_bruits_alerte()
 
 def temp():
     while True:

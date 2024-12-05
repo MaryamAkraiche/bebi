@@ -264,9 +264,8 @@ def menu():
     elif value and value[0] == musique_bruits:
         musique_et_bruits()
 
-
+doses = 0
 def compteur_de_lait_menu():
-    doses = 0
     send_packet(key, 1, doses)
     while True:
         if pin0.is_touched():
@@ -288,6 +287,7 @@ def compteur_de_lait_menu():
             sleep(500)
         if pin_logo.is_touched():
             menu()
+        
 def temp():
     if message[2] == "Alerte: Température trop élevée !":
         display.show(flamme, delay=100)
@@ -314,10 +314,11 @@ def agitation():
         music.play(music.POWER_DOWN)
         display.show(Image.NO)
         if button_a.was_pressed():
-            musique_bruits
+            musique_et_bruits()
     sleep(200)   
 def veilleusee():
-    if message[2 == "luminosité_faible"]
+    message = receive_packet(radio.receive(), key)
+    if message[2] == "luminosité_faible":
         display.scroll("low")
         if button_a.is_pressed():
             send_packet(key, 4,"activé" )
@@ -334,7 +335,8 @@ def veilleuse_menu():
     
 
 def main():
-    while not ALERT_RECEIVED():
+    while True:
+        ALERT_RECEIVED()
         if pin_logo.is_touched():
             if out_of_range():
                 break
