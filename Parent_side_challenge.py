@@ -290,10 +290,11 @@ def compteur_de_lait_menu():
             menu()
         
 def temp():
-    if message[2] == "Alerte: Température trop élevée !":
+    temperature = receive_packet(radio.receive(), key)[2]
+    if temperature == "Alerte: Température trop élevée !":
         display.show(flamme, delay=100)
         music.play(music.POWER_DOWN)
-    elif message[2] == "Alerte: Température trop basse !":
+    elif temperature == "Alerte: Température trop basse !":
         display.show(flocons, delay=100)
         music.play(music.POWER_UP)    
 def ALERT_RECEIVED():
@@ -304,19 +305,18 @@ def ALERT_RECEIVED():
         if message[0] == 4:
             veilleusee()
         if message[0] == 5:
-            agitation()
-        
-def agitation():
-    if message[2] == 'endormi':
-        display.show(Image.ASLEEP)  
-    elif message[2] == 'agité':
-        display.show(Image.MEH)  
-    elif message[2] == 'très agité':
-        music.play(music.POWER_DOWN)
-        display.show(Image.NO)
-        if button_a.was_pressed():
-            musique_et_bruits()
-    sleep(200)   
+            if message[2] == 'endormi':
+                display.show(Image.ASLEEP)  
+            elif message[2] == 'agité':
+                display.show(Image.MEH)  
+            elif message[2] == 'très agité':
+                music.play(music.POWER_DOWN)
+                display.show(Image.NO)
+                if button_a.was_pressed():
+                    musique_et_bruits()
+        sleep(200)  
+                
+ 
 def veilleusee():
     message = receive_packet(radio.receive(), key)
     if message[2] == "luminosité_faible":
@@ -328,9 +328,9 @@ def veilleusee():
         
 def veilleuse_menu():
     if button_a.is_pressed():
-        send_packet(key, 4,"activé" )
+        send_packet(key, 4,"activé")
     if pin_logo.is_touched():
-            menu()
+        menu()
 
 
     
@@ -338,8 +338,5 @@ def veilleuse_menu():
 def main():
     while True:
         if pin_logo.is_touched():
-            if out_of_range():
-                break
-            else:
-                menu()
+            menu()
 

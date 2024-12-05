@@ -27,7 +27,7 @@ veilleuse = Image("00500:"
                   "55555:"
                   "05550:"
                   "00500:")
-temperature = Image("00500:"
+temperaturee = Image("00500:"
                     "05555:"
                     "00500:"
                     "00500:"
@@ -54,7 +54,7 @@ radio.on()
 radio.config(group = 3)
 def generate_key(seed):
     return hashing(seed)
-key = generate_key(13)
+key = 13
 def hashing(string):
 	"""
 	Hachage d'une chaîne de caractères fournie en paramètre.
@@ -84,7 +84,7 @@ def hashing(string):
 		m = 1000003
 		for c in string:
 			x = to_32((x*m) ^ ord(c))
-		x ^= len(string)
+		x = len(string)
 		if x == -1:
 			x = -2
 		return str(x)
@@ -118,7 +118,7 @@ def vigenere(message, key, decryption=False):
             text += char
     return text
     
-def send_packet(key, type, content):
+def send_packet(key, msg_type, content):
     """
     Envoie de données fournie en paramètres
     Cette fonction permet de construire, de chiffrer puis d'envoyer un paquet via l'interface radio du micro:bit
@@ -128,7 +128,7 @@ def send_packet(key, type, content):
            (str) content:   Données à envoyer
 	:return none
     """
-    packet = f"{type}|{len(content)}|{content}"
+    packet = f"{msg_type}|{len(str(content))}|{content}"
     encrypted_packet = vigenere(packet, key)
     radio.send(encrypted_packet)
 #Decrypt and unpack the packet received and return the fields value
@@ -143,14 +143,12 @@ def unpack_data(encrypted_packet, key):
             (int)lenght:           Longueur de la donnée en caractères
             (str) message:         Données reçues
     """
-    try:
-        type = str(type)
-        length = int(length)
-        decrypted_packet = vigenere(encrypted_packet,key,decryption=True)
-        message = decrypted_packet.split('|')
-        return message
+    type = str(type)
+    length = int(length)
+    message = vigenere(encrypted_packet,key,decryption=True)
+    return message
         
-    except:
+
 
 #Unpack the packet, check the validity and return the type, length and content
 def receive_packet(packet_received, key):
@@ -165,14 +163,14 @@ def receive_packet(packet_received, key):
             (int)lenght:           Longueur de la donnée en caractère
             (str) message:         Données reçue
     """
-    packet_received = unpack_data(radio.received(), key)  
+    
+    packet_received = unpack_data(radio.receive(), key).split()  
     try:    
-        if packet_received:
-            for i in packet_received :
-                real_packet =  f"{i}|{i+1}|{i+2}"
+        for i in packet_received :
+            real_packet =  f"{i}|{i+1}|{i+2}"
             return real_packet
     except:
-        return " | | "
+        return None
     
 #Calculate the challenge response
 def calculate_challenge_response(challenge):
@@ -210,7 +208,7 @@ def agitation():
             send_packet(key, 5, 'très agité')
 
     sleep(200)
-def musique_et_bruits_menu():
+"""def musique_et_bruits_menu():
     while True: 
         if button_a.is_pressed():
             if pin0.is_touched():
@@ -218,10 +216,10 @@ def musique_et_bruits_menu():
             if pin1.is_touched():
                 classical()
         if button_b.is_pressed():
-            bruits_de_fonds()
+            bruits_de_fonds()"""
 
 
-def musique_et_bruits_alerte():
+"""def musique_et_bruits_alerte():
     while True: 
         message = receive_packet(radio.receive(),key )
         if message[2] == "rick_roll" :
@@ -229,7 +227,7 @@ def musique_et_bruits_alerte():
         if message[2] == "classical" :    
             classical()
         if message[2] == "bruits" :
-            bruits_de_fonds()
+            bruits_de_fonds()"""
 def compteur_lait():
     message = receive_packet(radio.receive(), key)
     display.show(message[2])
@@ -257,9 +255,9 @@ def instructions():
         message = receive_packet(radio.receive(), key)
         if message[0] == 4:
             veilleuse_activé()  
-        if message[0] == 2:
+"""        if message[0] == 2:
             musique_et_bruits_alerte()
-
+"""
 def temp():
     while True:
         room_temp = temperature() - 4
@@ -271,10 +269,10 @@ def temp():
         else:
             display.clear()
     
-    sleep(600000)
+        sleep(600000)
 
 def menu():
-    lst = [compteur_de_lait, veilleuse, temperature, musique_bruits]
+    lst = [compteur_de_lait, veilleuse, temperaturee, musique_bruits]
     value = []
     stop = False
     veilleusee()
@@ -295,13 +293,13 @@ def menu():
                     break
         
     if value and value[0] == compteur_de_lait:
-        lait()
-    elif value and value[0] ==luminosite_auto: #PAS OPERATIONNEL
+        compteur_lait()
+    elif value and value[0] ==veilleuse: #PAS OPERATIONNEL
         veilleuse_activation()
     elif value and value[0] == temperature:
         temp()
-    elif value and value[0] == musique_bruits:
-        musique_et_bruits()
+"""   elif value and value[0] == musique_bruits:
+        musique_et_bruits_menu()"""
 
 def main():
     while True:
