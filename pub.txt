@@ -1,0 +1,29 @@
+personne qui parle puis plan sur la demo 
+
+Pour agitation:
+
+2 plan 
++ plan avec la fct musique disponible hors agitation
+
+Pour le lait:
+
+plan sur un verre de lait posé sur une table prés du bb et puis plan avec ajout de la dose et commentaire en fond
+
+Pour veilleuse:
+
+plan sur le microbit s'activant dans le noir, plus plan sur celui parent pr l'activer ou la désactiver sans alerte 
+
+
+
+Pour temperature :
+
+effet chaud froid en fct de la température :
+mettre le microbit dans le frigo 10 min pour simuler l'effet du froid
+ensuite faire une mesure de t° et faire scéne avec le chauffage allumé 
+enuite chauffer avc les mains et refaire une scéne avec la mesure de température 
+
+avec le froid on montre les alertes 
+avec le chaud on montre l'affichage de la t° garce au microbit chaud
+
+
+
