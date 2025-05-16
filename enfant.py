@@ -19,6 +19,8 @@ listening_mode = 0
 menu_mode = 1
 
 
+
+
 def hashing(string):
     """
     Hachage d'une chaîne de caractères fournie en paramètre.
